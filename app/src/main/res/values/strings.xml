@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">TodoListApp</string>
+    <string name="title">JUST DON\'T FORGET TO DO:</string>
+    <string name="add">+</string>
+    <string name="to_do">ADDING TO DO ITEM:</string>
+    <string name="title_field">Title:</string>
+    <string name="title_hint">Enter to do item title</string>
+    <string name="due_date">Due date:</string>
+    <string name="due_date_hint">Select due date</string>
+    <string name="category">Category:</string>
+    <string name="other_category">Other category:</string>
+    <string name="other_category_hint">Enter other category</string>
+    <string name="submit">Submit</string>
+    <string name="priority">Priority:</string>
+    <string name="empty_stirng"/>
+    <string name="empty_list">Add something to your to do list</string>
+    <string name="edit">Edit</string>
+    <string name="move">Move</string>
+    <string name="remove">Remove</string>
+    <string name="edit_header">EDIT TO DO ITEM:</string>
+    <string name="completed">Completed:</string>
+    <string-array name="categories">
+        <item>Family</item>
+        <item>Business</item>
+        <item>Personal</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="sort_params">
+    <item>no sorting</item>
+    <item>category</item>
+    <item>completion</item>
+    <item>due date</item>
+    <item>name</item>
+    <item>priority</item>
+    </string-array>
+
+    <string-array name="sort_order">
+        <item>ascending</item>
+        <item>descending</item>
+    </string-array>
+</resources>

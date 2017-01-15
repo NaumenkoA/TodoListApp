@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_to_do"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#D9DDDD"
+    tools:context="com.example.alex.todolistapp.ui.ToDoActivity">
+
+    <TextView
+        android:text="@string/to_do"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toDoHeaderTextView"
+        android:paddingTop="30dp"
+        android:layout_marginBottom="25dp"
+        android:textSize="25sp"
+        android:textColor="#333838"
+        android:textStyle="normal|bold" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toDoHeaderTextView"
+        android:id="@+id/itemTitleLayout"
+        android:layout_marginTop="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:text="@string/title_field"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#333838"
+            android:layout_weight="30"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="70"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColorHint="#ffffff"
+            android:hint="@string/title_hint"
+            android:id="@+id/titleEditText"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/itemTitleLayout"
+        android:id="@+id/itemPriorityLayout"
+        android:layout_marginTop="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:text="@string/priority"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#333838"
+            android:layout_weight="30"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="wrap_content"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:paddingEnd="5dp"
+            android:layout_gravity="start"
+            android:clickable="true"
+            app:srcCompat="@android:drawable/star_big_off"
+            android:id="@+id/itemPriorityImageView"/>
+
+        <TextView
+            android:text="@string/completed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:textColor="#333838"
+            android:layout_weight="40"/>
+
+        <CheckBox
+            android:text=""
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="wrap_content"
+            android:id="@+id/itemCompletedCheckBox"
+            android:buttonTint="#333838"
+            android:clickable="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/itemPriorityLayout"
+        android:id="@+id/itemDueDateLayout"
+        android:layout_marginTop="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:text="@string/due_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="20sp"
+            android:textColor="#333838"
+            android:layout_weight="30"/>
+
+        <DatePicker
+            android:layout_width="0dp"
+            android:layout_weight="70"
+            android:layout_height="100dp"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"
+            android:id="@+id/datePicker"
+            android:calendarTextColor="@android:color/background_light"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/itemDueDateLayout"
+        android:id="@+id/itemCategoryLayout"
+        android:layout_marginTop="10dp"
+        android:weightSum="100">
+
+        <TextView
+            android:text="@string/category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="#333838"
+            android:layout_weight="30"/>
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/categorySpinner"
+            android:layout_weight="70"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/itemCategoryLayout"
+    android:id="@+id/itemOtherCategoryLayout"
+    android:layout_marginTop="10dp"
+    android:paddingBottom="20dp"
+    android:weightSum="100">
+
+    <TextView
+        android:text="@string/other_category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#333838"
+        android:layout_weight="45"/>
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_weight="70"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:textColorHint="#ffffff"
+        tools:hint="@string/other_category_hint"
+        android:id="@+id/otherCategoryEditText"/>
+
+</LinearLayout>
+
+    <Button
+        android:text="@string/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:id="@+id/submitButton"/>
+
+</RelativeLayout>
