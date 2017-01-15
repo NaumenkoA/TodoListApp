@@ -3,11 +3,6 @@ package com.example.alex.todolistapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 public class ToDoItem implements Parcelable {
     private String mName;
     private String mCategory;
@@ -20,9 +15,6 @@ public class ToDoItem implements Parcelable {
         return mDueDate;
     }
 
-    public void setDueDate(String dueDate) {
-        mDueDate = dueDate;
-    }
 
     public String []  getDueDateArray () {
         return mDueDate.split("-");
@@ -63,9 +55,6 @@ public class ToDoItem implements Parcelable {
         return 0;
     }
 
-    public boolean getIsCompleted () {
-        return mIsCompleted;
-    }
 
     public String getCategoryWithPrefix() {
         return "Category: " + mCategory;
@@ -75,11 +64,7 @@ public class ToDoItem implements Parcelable {
         return mCategory;
     }
 
-    public void setCategory(String category) {
-        mCategory = category;
-    }
-
-    public int getUserPosition() {
+       public int getUserPosition() {
         return mUserPosition;
     }
 
@@ -95,10 +80,6 @@ public class ToDoItem implements Parcelable {
         mDatabaseId = databaseId;
     }
 
-    public static Creator<ToDoItem> getCREATOR() {
-        return CREATOR;
-    }
-
     public boolean isCompleted() {
         return mIsCompleted;
     }
@@ -109,10 +90,6 @@ public class ToDoItem implements Parcelable {
 
     public boolean isHighPriority() {
         return mHighPriority;
-    }
-
-    public void setHighPriority(boolean highPriority) {
-        mHighPriority = highPriority;
     }
 
 
@@ -128,10 +105,6 @@ public class ToDoItem implements Parcelable {
     public ToDoItem() {
     }
 
-    public String getDueDateAsString() {
-        DateFormat formatter = new SimpleDateFormat("dd/MM");
-        return formatter.format(mDueDate);
-    }
 
     public int getItemImageResource() {
         if (mHighPriority) {

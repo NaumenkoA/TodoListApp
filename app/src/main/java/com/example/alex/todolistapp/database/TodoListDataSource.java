@@ -12,7 +12,6 @@ import java.util.ArrayList;
 
 public class TodoListDataSource {
     private TodoSQLiteHelper mTodoSQLiteHelper;
-    private Cursor mCursor;
 
     public TodoListDataSource (Context context) {
         mTodoSQLiteHelper = new TodoSQLiteHelper(context);
@@ -49,13 +48,13 @@ public class TodoListDataSource {
 
     public ArrayList<ToDoItem> readItems() {
         SQLiteDatabase database = open();
-         mCursor = database.query(
+        Cursor cursor = database.query(
                 TodoSQLiteHelper.TODO_LIST_TABLE,
-                 new String[]{BaseColumns._ID, TodoSQLiteHelper.COLUMN_TODO_ITEM_NAME,
-                         TodoSQLiteHelper.COLUMN_CATEGORY, TodoSQLiteHelper.COLUMN_DUE_DATE,
-                         TodoSQLiteHelper.COLUMN_COMPLETION,
-                         TodoSQLiteHelper.COLUMN_PRIORITY,
-                         TodoSQLiteHelper.COLUMN_USER_POSITION}, //columns to return
+                new String[]{BaseColumns._ID, TodoSQLiteHelper.COLUMN_TODO_ITEM_NAME,
+                        TodoSQLiteHelper.COLUMN_CATEGORY, TodoSQLiteHelper.COLUMN_DUE_DATE,
+                        TodoSQLiteHelper.COLUMN_COMPLETION,
+                        TodoSQLiteHelper.COLUMN_PRIORITY,
+                        TodoSQLiteHelper.COLUMN_USER_POSITION}, //columns to return
                 null, //selection
                 null, //selection args
                 null, //group by
@@ -63,22 +62,22 @@ public class TodoListDataSource {
                 TodoSQLiteHelper.COLUMN_USER_POSITION + " ASC");
 
         ArrayList<ToDoItem> items = new ArrayList<>();
-        if(mCursor.moveToFirst()) {
+        if(cursor.moveToFirst()) {
             do {
-                String name = getStringFromColumnName(mCursor, TodoSQLiteHelper.COLUMN_TODO_ITEM_NAME);
-                String category = getStringFromColumnName(mCursor, TodoSQLiteHelper.COLUMN_CATEGORY);
-                String dueDate = getStringFromColumnName(mCursor, TodoSQLiteHelper.COLUMN_DUE_DATE);
-                int completion = getIntFromColumnName(mCursor, TodoSQLiteHelper.COLUMN_COMPLETION);
-                int priority = getIntFromColumnName(mCursor, TodoSQLiteHelper.COLUMN_PRIORITY);
-                int position = getIntFromColumnName(mCursor, TodoSQLiteHelper.COLUMN_USER_POSITION);
-                int id = getIntFromColumnName(mCursor, BaseColumns._ID);
+                String name = getStringFromColumnName(cursor, TodoSQLiteHelper.COLUMN_TODO_ITEM_NAME);
+                String category = getStringFromColumnName(cursor, TodoSQLiteHelper.COLUMN_CATEGORY);
+                String dueDate = getStringFromColumnName(cursor, TodoSQLiteHelper.COLUMN_DUE_DATE);
+                int completion = getIntFromColumnName(cursor, TodoSQLiteHelper.COLUMN_COMPLETION);
+                int priority = getIntFromColumnName(cursor, TodoSQLiteHelper.COLUMN_PRIORITY);
+                int position = getIntFromColumnName(cursor, TodoSQLiteHelper.COLUMN_USER_POSITION);
+                int id = getIntFromColumnName(cursor, BaseColumns._ID);
                 ToDoItem item = new ToDoItem(name, category, dueDate, completion, priority, position, id);
                 items.add(item);
             }
-            while(mCursor.moveToNext());
+            while(cursor.moveToNext());
         }
 
-        mCursor.close();
+        cursor.close();
         close(database);
         if (items.size() == 0) return null;
         return items;
@@ -153,7 +152,7 @@ public class TodoListDataSource {
         database.endTransaction();
          }
 
-    public void deleteAll() {
+    private void deleteAll() {
         SQLiteDatabase database = open();
         database.beginTransaction();
         database.delete(TodoSQLiteHelper.TODO_LIST_TABLE,
@@ -193,65 +192,8 @@ public class TodoListDataSource {
         close(database);
         }
 
-    public void moveItem(ToDoItem movedItem, int newId) {
-        SQLiteDatabase database = open();
-        database.beginTransaction();
 
-        Cursor cursor = database.rawQuery("SELECT * FROM " + TodoSQLiteHelper.TODO_LIST_TABLE, null);
-        ArrayList<ToDoItem> items = new ArrayList<>();
-        if(cursor.moveToFirst()) {
-            do {
-                String name = getStringFromColumnName(cursor, TodoSQLiteHelper.COLUMN_TODO_ITEM_NAME);
-                String category = getStringFromColumnName(cursor, TodoSQLiteHelper.COLUMN_CATEGORY);
-                String dueDate = getStringFromColumnName(cursor, TodoSQLiteHelper.COLUMN_DUE_DATE);
-                int completion = getIntFromColumnName(cursor, TodoSQLiteHelper.COLUMN_COMPLETION);
-                int priority = getIntFromColumnName(cursor, TodoSQLiteHelper.COLUMN_PRIORITY);
-                int id = getIntFromColumnName(cursor, BaseColumns._ID);
-                ToDoItem item = new ToDoItem(name, category, dueDate, completion, priority, 0, id);
-                if (newId == id) {
-                    items.add(movedItem);
-                }
-                if (id != movedItem.getUserPosition()) {
-                    items.add(item);
-                }
-            }
-            while(cursor.moveToNext());
-        }
-        database.setTransactionSuccessful();
-        database.endTransaction();
-        close(database);
-
-        deleteAll();
-        writeData(items);
-}
-
-    private void writeData(ArrayList<ToDoItem> items) {
-        for (ToDoItem item:items) {
-            addItem(item);
-        }
-    }
-
-    public void updateItemPosition(ToDoItem item, int newPosition) {
-        SQLiteDatabase database = open();
-        database.beginTransaction();
-
-        ContentValues todoItemValue = new ContentValues();
-        todoItemValue.put(TodoSQLiteHelper.COLUMN_TODO_ITEM_NAME, item.getName());
-        todoItemValue.put(TodoSQLiteHelper.COLUMN_CATEGORY, item.getCategory());
-        todoItemValue.put(TodoSQLiteHelper.COLUMN_DUE_DATE, item.getDueDate());
-        todoItemValue.put(TodoSQLiteHelper.COLUMN_COMPLETION, item.getCompletionAsInt());
-        todoItemValue.put(TodoSQLiteHelper.COLUMN_PRIORITY, item.getPriorityAsInt());
-        todoItemValue.put(TodoSQLiteHelper.COLUMN_USER_POSITION, newPosition);
-        database.update(TodoSQLiteHelper.TODO_LIST_TABLE,
-                todoItemValue,
-                String.format("%s=%d", BaseColumns._ID, item.getDatabaseId()), null);
-
-        database.setTransactionSuccessful();
-        database.endTransaction();
-        close(database);
-    }
-
-    public void updateItems(ArrayList<ToDoItem> toDoList) {
+     public void updateItems(ArrayList<ToDoItem> toDoList) {
         deleteAll();
         for (ToDoItem item : toDoList) {
             addItem(item);

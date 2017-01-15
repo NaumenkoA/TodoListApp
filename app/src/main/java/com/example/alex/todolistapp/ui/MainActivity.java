@@ -10,7 +10,6 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -201,11 +200,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateItemPositionsInDatabase() {
         ArrayList <ToDoItem> loadedList = mDataSource.readItems();
         if (loadedList != null) {
-            int i = 0;
-            for (ToDoItem item : loadedList) {
-                item.setUserPosition(i);
-                i++;
-            }
+            refreshItemPositions(loadedList);
             mDataSource.updateItems(loadedList);
             if (mSortSpinner.getSelectedItemPosition() == 0) {
                 mToDoItemArrayList = mDataSource.readItems();
@@ -214,6 +209,14 @@ public class MainActivity extends AppCompatActivity {
                         mAscDescSpinner.getSelectedItemPosition());
             }
             mAdapter.setToDoItemList(mToDoItemArrayList);
+        }
+    }
+
+    private void refreshItemPositions(ArrayList<ToDoItem> loadedList) {
+        int i = 0;
+        for (ToDoItem item : loadedList) {
+            item.setUserPosition(i);
+            i++;
         }
     }
 
@@ -227,6 +230,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void moveItem(int oldPosition, int newPosition) {
         if (oldPosition != newPosition) {
+        ToDoItem movedItem = mToDoItemArrayList.get(oldPosition);
+        mToDoItemArrayList.remove(oldPosition);
+        mToDoItemArrayList.add(newPosition, movedItem);
+        refreshItemPositions(mToDoItemArrayList);
+        mDataSource.updateItems(mToDoItemArrayList);
+        mAdapter.setToDoItemList(mToDoItemArrayList);
         mAdapter.notifyItemMoved(oldPosition, newPosition);
         }
         mIsItemMovingActivated = false;
@@ -256,9 +265,13 @@ public class MainActivity extends AppCompatActivity {
                                         popup.dismiss();
                                         return true;
                                     case (R.id.move):
-                                        Toast.makeText(MainActivity.this, "Tap on new position for the item", Toast.LENGTH_SHORT).show();
-                                        mIsItemMovingActivated = true;
-                                        mOldPosition = i;
+                                        if (mSortSpinner.getSelectedItemPosition() != 0) {
+                                            Toast.makeText(MainActivity.this, "Moving items is not available when sorting is activated", Toast.LENGTH_LONG).show();
+                                        } else {
+                                            Toast.makeText(MainActivity.this, "Tap on new position for the item", Toast.LENGTH_SHORT).show();
+                                            mIsItemMovingActivated = true;
+                                            mOldPosition = i;
+                                        }
                                         return true;
                                     case (R.id.remove):
                                         removeItem(mToDoItemArrayList.get(i), i);

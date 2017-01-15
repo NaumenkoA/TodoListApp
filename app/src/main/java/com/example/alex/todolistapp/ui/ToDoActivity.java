@@ -2,11 +2,8 @@ package com.example.alex.todolistapp.ui;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,8 +18,6 @@ import android.widget.Toast;
 import com.example.alex.todolistapp.R;
 import com.example.alex.todolistapp.model.ToDoItem;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -113,10 +108,7 @@ public class ToDoActivity extends AppCompatActivity {
     }
 
     private boolean isOtherCategoryEnabled(ToDoItem item) {
-        if (getSpinnerPosition(item) == 3) {
-            return true;
-        }
-        return false;
+        return getSpinnerPosition(item) == 3;
     }
 
     private String getOtherCategoryText(ToDoItem item) {
@@ -196,9 +188,7 @@ public class ToDoActivity extends AppCompatActivity {
         calendar.set(Calendar.DAY_OF_MONTH, day);
         Date date = calendar.getTime();
 
-        String strDate = dateFormatter.format(date);
-
-        return strDate;
+        return dateFormatter.format(date);
     }
 
     public void setSpinnerAdapter(String[] array, Spinner spinner) {
